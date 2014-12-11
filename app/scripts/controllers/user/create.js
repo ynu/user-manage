@@ -8,7 +8,7 @@
  * Controller of the userManageApp
  */
 angular.module('userManageApp')
-  .controller('UserCreateCtrl', function ($scope, userManager, naguAppM,naguCM) {
+  .controller('UserCreateCtrl', function ($scope, naguAppM,naguCM, naguMM) {
     naguAppM.list().then(function(apps){
       var cIds = [];
       $.each(apps, function(i, app){
@@ -25,8 +25,10 @@ angular.module('userManageApp')
           alert('密码不相同');
           return;
         }
-        userManager.create($scope.user).then(function(user){
-          alert('done');
+        $scope.loading.visible = true;
+        naguMM.create($scope.user).then(function(user){
+          $scope.user = {};
+          $scope.loading.visible = false;
         });
       }
     };

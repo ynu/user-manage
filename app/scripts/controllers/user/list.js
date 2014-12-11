@@ -8,8 +8,8 @@
  * Controller of the userManageApp
  */
 angular.module('userManageApp')
-  .controller('UserListCtrl', function ($scope,userManager,Ynu, naguCM) {
-    userManager.listAll(Ynu.AppId).then(function(users){
+  .controller('UserListCtrl', function ($scope,Ynu, naguCM, naguMM) {
+    naguMM.allMembers(Ynu.AppId).then(function(users){
       var cids = [];
       $.each(users, function(i, user){
         cids.push(user.ConceptId);
