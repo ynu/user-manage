@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <!--对于没有自带 IE7 内核的浏览器 强制使用用户已安装的最高版本浏览器渲染, 有Chrome框架的优先使用-->
 
-    <title>采购管理系统</title>
+    <title>用户管理系统</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -52,7 +52,7 @@
 </head>
 
 
-<body class="no-skin" ng-app="appstoreApp" >
+<body class="no-skin" ng-app="userManageApp" >
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -67,7 +67,7 @@
                 <!-- #section:basics/navbar.layout.brand -->
                 <a href="#" class="navbar-brand">
                     <i class="fa fa-cubes"></i>
-                    资产管理处·采购管理系统
+                    云URP·用户管理系统
                     <small class="">
                         v{{version}}
                     </small>
@@ -204,10 +204,10 @@
                     <b class="arrow"></b>
                 </li>
 
-              <li class="hover hsub" ng-class="{active: isActive('/sbb/list')}">
-                <a href="#/sbb/list" class="">
+              <li class="hover hsub" ng-class="{active: isActive('/role/list')}">
+                <a href="#/role/list" class="">
                   <i class="menu-icon fa fa-clock-o"></i>
-                  <span class="menu-text"> 采购计划 </span>
+                  <span class="menu-text"> 角色管理 </span>
 
                   <b class="arrow fa fa-angle-down"></b>
                 </a>
@@ -216,9 +216,9 @@
               </li>
 
                 <li class="hover hsub" ng-class="{active: isActive('/sbb/list')}">
-                    <a href="#/sbb/list" class="">
+                    <a href="#/user/list" class="">
                         <i class="menu-icon fa fa-list"></i>
-                        <span class="menu-text"> 采购申报 </span>
+                        <span class="menu-text"> 用户管理 </span>
 
                         <b class="arrow fa fa-angle-down"></b>
                     </a>
@@ -345,7 +345,7 @@
 
     <div class="nagu-loading" ng-if="loading.visible">
         <div class="text-center">
-            <span class="badge badge-warning" ng-if="loading.text">{{loading.text}}</span>
+            <span class="badge badge-warning" ng-if="loading.text">正在加载，请稍候……</span>
         </div>
 
     </div>
@@ -396,19 +396,14 @@
 
 
     <script src="scripts/app.js"></script>
-    <script src="scripts/controllers/apps-by-category.js"></script>
-    <script src="scripts/controllers/nav-bar.js"></script>
-    <script src="scripts/controllers/app-manage.js"></script>
     <script src="scripts/controllers/header.js"></script>
-    <script src="scripts/controllers/page-header.js"></script>
-    <script src="scripts/controllers/sbb/list.js"></script>
-    <script src="scripts/services/sbb.js"></script>
-    <script src="scripts/controllers/sbb/show.js"></script>
-    <script src="scripts/controllers/sbb/delete.js"></script>
-    <script src="scripts/controllers/sbb/new.js"></script>
-    <script src="scripts/controllers/sbb/createsbbitem.js"></script>
-    <script src="scripts/controllers/login.js"></script>
-    <script src="scripts/controllers/sbb/apply-user.js"></script>
+    <script src="scripts/controllers/nav-bar.js"></script>
+
+    <script src="scripts/controllers/role/list.js"></script>
+    <script src="scripts/services/role-manager.js"></script>
+    <script src="scripts/controllers/user/list.js"></script>
+    <script src="scripts/services/user-manager.js"></script>
+    <script src="scripts/controllers/user/create.js"></script>
     <!-- endbuild -->
 </body>
 </html>

@@ -1,0 +1,16 @@
+<table class="table">
+  <thead>
+  <tr>
+    <td>角色Id</td>
+    <td>角色名称</td>
+    <td>描述</td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="role in roles track by $index">
+    <td>{{role.ConceptId}}</td>
+    <td>{{role.FriendlyNames[0]}}</td>
+    <td>{{role.Descriptions[0]}}</td>
+  </tr>
+  </tbody>
+</table>

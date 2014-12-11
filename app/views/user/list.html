@@ -1,0 +1,22 @@
+<table class="table">
+  <thead>
+  <tr>
+    <td>用户Id</td>
+    <td>用户名</td>
+    <td>描述</td>
+    <td>角色</td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="user in users track by $index">
+    <td>{{user.ConceptId}}</td>
+    <td>{{user.FriendlyNames[0]}}</td>
+    <td>{{user.Descriptions[0]}}</td>
+    <td>角色</td>
+  </tr>
+  </tbody>
+</table>
+
+  <div>
+    <a class="btn btn-primary" href="#/user/create">新建用户</a>
+  </div>
