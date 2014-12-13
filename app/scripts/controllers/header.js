@@ -8,7 +8,7 @@
  * Controller of the userManageApp
  */
 angular.module('userManageApp')
-  .controller('HeaderCtrl', function ($scope, $location, $rootScope, naguBz) {
+  .controller('HeaderCtrl', function ($scope, $location, $rootScope, naguBz, naguAppM, naguCM) {
 
       if ($rootScope.loading === undefined)
           $rootScope.loading = {
@@ -41,5 +41,14 @@ angular.module('userManageApp')
           }
       });
 
+    naguAppM.list().then(function(apps){
+      var cIds = [];
+      $.each(apps, function(i, app){
+        cIds.push(app.ConceptId);
+      });
+      naguCM.bulkGet(cIds).then(function(apps){
+        $scope.apps = apps;
+      });
 
+    })
   });

@@ -1,22 +1,46 @@
 <table class="table">
   <thead>
   <tr>
-    <td>用户Id</td>
-    <td>用户名</td>
-    <td>描述</td>
+    <td class="hidden-sm hidden-xs">用户名</td>
+    <td>显示名称</td>
+    <td class="hidden-sm hidden-xs">描述</td>
     <td>角色</td>
+    <td>所在部门</td>
+    <td>办公电话</td>
+    <td>手机号码</td>
+    <td>操作</td>
   </tr>
   </thead>
   <tbody>
   <tr ng-repeat="user in users track by $index">
-    <td>{{user.ConceptId}}</td>
+    <td class="hidden-sm hidden-xs">{{user.UserName}}</td>
     <td>{{user.FriendlyNames[0]}}</td>
-    <td>{{user.Descriptions[0]}}</td>
-    <td>角色</td>
+    <td class="hidden-sm hidden-xs">{{user.Descriptions[0]}}</td>
+    <td>
+      <span class="badge" ng-repeat="role in user.Roles track by $index">
+        {{xb008[role.ConceptId].Name}}
+      </span>
+    </td>
+    <td>{{xb001[user.Depts[0]].Name}}</td>
+    <td>{{user.OfficeNum[0]}}</td>
+    <td>{{user.CellPhoneNum[0]}}</td>
+    <td>
+
+      <div class=" btn-group">
+        <a class="btn btn-xs btn-primary" title="修改信息" href="#/user/edit/ynu/{{user.ConceptId}}">
+          <i class="ace-icon fa fa-user bigger-120"></i>
+        </a>
+
+        <button class="btn btn-xs btn-danger" title="移除用户"
+          ng-click="actions.removeMember({{$index}});">
+          <i class="ace-icon fa fa-trash-o bigger-120"></i>
+        </button>
+      </div>
+    </td>
   </tr>
   </tbody>
 </table>
 
   <div>
-    <a class="btn btn-primary" href="#/user/create">新建用户</a>
+    <a class="btn btn-primary" href="#/user/create/{{appName[appId]}}">新建用户</a>
   </div>

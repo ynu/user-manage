@@ -28,13 +28,21 @@ angular
         templateUrl: 'views/role/list.html',
         controller: 'RoleListCtrl'
       })
-      .when('/user/list', {
+      .when('/user/list/:appId', {
         templateUrl: 'views/user/list.html',
         controller: 'UserListCtrl'
       })
       .when('/user/create', {
         templateUrl: 'views/user/create.html',
         controller: 'UserCreateCtrl'
+      })
+      .when('/user/create/ynu', {
+        templateUrl: 'views/user/create/ynu.html',
+        controller: 'UserCreateYnuCtrl'
+      })
+      .when('/user/edit/ynu/:userId', {
+        templateUrl: 'views/user/create/ynu.html',
+        controller: 'UserEditYnuCtrl'
       })
       .otherwise({
         redirectTo: '/'

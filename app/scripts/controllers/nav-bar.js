@@ -9,7 +9,7 @@
  */
 angular.module('userManageApp')
   .controller('NavBarCtrl', function ($scope, $q, $rootScope, $location, naguMM) {
-      $scope.version = '1.2.0';
+      $scope.version = '0.1.0';
       $scope.me = {};
 
       naguMM.getMe().then(function (me) {

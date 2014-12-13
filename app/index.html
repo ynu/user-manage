@@ -216,7 +216,7 @@
               </li>
 
                 <li class="hover hsub" ng-class="{active: isActive('/sbb/list')}">
-                    <a href="#/user/list" class="">
+                    <a href="javascript://void(0)" class="dropdown-toggle">
                         <i class="menu-icon fa fa-list"></i>
                         <span class="menu-text"> 用户管理 </span>
 
@@ -224,6 +224,15 @@
                     </a>
 
                     <b class="arrow"></b>
+                  <ul class="submenu">
+                    <li class="hover" ng-repeat="app in apps track by $index">
+                      <a href="#/user/list/{{app.ConceptId}}">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        {{app.FriendlyNames[0]}}
+                      </a>
+                      <b class="arrow"></b>
+                    </li>
+                  </ul>
                 </li>
 
                 <li class="hover hsub hidden">
@@ -377,6 +386,7 @@
     <script src="../bower_components/pickadate/lib/translations/zh_CN.js"></script>
     <!-- endbuild -->
 
+    <script src="http://cdn.ynu.edu.cn/lib/ace13/assets/js/ace.min.js" type="text/javascript"></script>
     <script src="http://ngapi.ynu.edu.cn/Content/js/bulid.js" type="text/javascript"></script>
 
     <script src="http://ngapi.ynu.edu.cn/Content/lib/json2.js" type="text/javascript"></script>
@@ -404,6 +414,8 @@
     <script src="scripts/controllers/user/list.js"></script>
     <script src="scripts/services/user-manager.js"></script>
     <script src="scripts/controllers/user/create.js"></script>
+    <script src="scripts/controllers/user/create/ynu.js"></script>
+    <script src="scripts/controllers/user/edit/ynu.js"></script>
     <!-- endbuild -->
 </body>
 </html>
