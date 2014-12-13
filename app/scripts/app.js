@@ -44,6 +44,14 @@ angular
         templateUrl: 'views/user/create/ynu.html',
         controller: 'UserEditYnuCtrl'
       })
+      .when('/user/login', {
+        templateUrl: 'views/user/login.html',
+        controller: 'UserLoginCtrl'
+      })
+      .when('/user/profile/:userId', {
+        templateUrl: 'views/user/profile.html',
+        controller: 'UserProfileCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

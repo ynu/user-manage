@@ -120,9 +120,9 @@
                             </li>
 
                             <li>
-                                <a href="profile.html">
+                                <a href="#/user/profile/{{me.Id}}/?returnUrl={{returnUrl}}">
                                     <i class="ace-icon fa fa-user"></i>
-                                    Profile
+                                    修改个人信息
                                 </a>
                             </li>
 
@@ -138,7 +138,7 @@
                     </li>
 
                     <li class="light-login" ng-if="me && !me.Id">
-                        <a href="#/login?returnUrl={{returnUrl}}">
+                        <a href="#/user/login?returnUrl={{returnUrl}}">
                             <i class="ace-icon fa fa-user"></i>
                             登录
                         </a>
@@ -416,6 +416,8 @@
     <script src="scripts/controllers/user/create.js"></script>
     <script src="scripts/controllers/user/create/ynu.js"></script>
     <script src="scripts/controllers/user/edit/ynu.js"></script>
+    <script src="scripts/controllers/user/login.js"></script>
+    <script src="scripts/controllers/user/profile.js"></script>
     <!-- endbuild -->
 </body>
 </html>
