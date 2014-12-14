@@ -8,7 +8,7 @@
  * Controller of the userManageApp
  */
 angular.module('userManageApp')
-  .controller('UserLoginCtrl', function ($scope, naguMM, $routeParams, $location, naguConfig) {
+  .controller('UserLoginCtrl', function ($scope, naguMM, $routeParams, $location, naguConfig, $rootScope) {
     var returnUrl = $routeParams['returnUrl'];
     $scope.returnUrl = encodeURIComponent( returnUrl);
     $scope.host = naguConfig.hosts[0];
@@ -22,6 +22,7 @@ angular.module('userManageApp')
 
         naguMM.login($scope.username, $scope.password).then(function(me){
           if(me.Id){
+            $rootScope.me = me;
             if(returnUrl) {
               window.location = returnUrl;
             } else {

@@ -39,10 +39,16 @@ angular.module('userManageApp')
 
     $scope.actions = {
       createUser: function(){
+
+        if(!$scope.user.Name || !$scope.user.password || !$scope.user.dept
+          || !$scope.user.office || !$scope.user.mobile){
+          alert('XX字段不能为空');
+        }
         if($scope.user.password != $scope.user.password2){
           alert('密码不相同');
           return;
         }
+
 
         // 真实姓名
         $scope.user.Fss.push({
@@ -73,13 +79,15 @@ angular.module('userManageApp')
         });
 
         // 角色
-        $.each($scope.user.roleIds, function(i, role){
-          $scope.user.Fss.push({
-            PredicateId: Nagu.Rdf.Type,
-            Object: role,
-            OType:Nagu.MType.Concept
+        if($scope.user.roleIds) {
+          $.each($scope.user.roleIds, function (i, role) {
+            $scope.user.Fss.push({
+              PredicateId: Nagu.Rdf.Type,
+              Object: role,
+              OType: Nagu.MType.Concept
+            });
           });
-        });
+        }
 
         $scope.loading.visible = true;
         naguMM.create($scope.user).then(function(user){

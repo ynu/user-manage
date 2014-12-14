@@ -113,15 +113,8 @@
 
                         <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                             <li>
-                                <a href="#">
-                                    <i class="ace-icon fa fa-cog"></i>
-                                    Settings
-                                </a>
-                            </li>
-
-                            <li>
                                 <a href="#/user/profile/{{me.Id}}/?returnUrl={{returnUrl}}">
-                                    <i class="ace-icon fa fa-user"></i>
+                                    <i class="ace-icon fa fa-cog"></i>
                                     修改个人信息
                                 </a>
                             </li>
@@ -235,72 +228,26 @@
                   </ul>
                 </li>
 
-                <li class="hover hsub hidden">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="menu-icon fa fa-pencil-square-o"></i>
-                        <span class="menu-text"> 部门应用 </span>
+              <li class="hover hsub" ng-class="{active: isActive('/app/list')}">
+                <a href="javascript://void(0)" class="dropdown-toggle">
+                  <i class="menu-icon fa fa-cog"></i>
+                  <span class="menu-text"> 系统设置 </span>
 
-                        <b class="arrow fa fa-angle-down"></b>
+                  <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+                <ul class="submenu">
+                  <li class="hover" ng-repeat="app in apps track by $index">
+                    <a href="#/app/setting/{{app.ConceptId}}">
+                      <i class="menu-icon fa fa-caret-right"></i>
+                      {{app.FriendlyNames[0]}}
                     </a>
-
                     <b class="arrow"></b>
+                  </li>
+                </ul>
+              </li>
 
-                    <ul class="submenu">
-                        <li class="hover">
-                            <a href="form-elements.html">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Form Elements
-                            </a>
-
-                            <b class="arrow"></b>
-                        </li>
-
-                        <li class="hover">
-                            <a href="form-wizard.html">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Wizard &amp; Validation
-                            </a>
-
-                            <b class="arrow"></b>
-                        </li>
-
-                        <li class="hover">
-                            <a href="wysiwyg.html">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Wysiwyg &amp; Markdown
-                            </a>
-
-                            <b class="arrow"></b>
-                        </li>
-
-                        <li class="hover">
-                            <a href="dropzone.html">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Dropzone File Upload
-                            </a>
-
-                            <b class="arrow"></b>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="hover hidden">
-                    <a href="widgets.html">
-                        <i class="menu-icon fa fa-list-alt"></i>
-                        <span class="menu-text"> 生命周期 </span>
-                    </a>
-
-                    <b class="arrow"></b>
-                </li>
-
-                <li class="hover" ng-class="{active: isActive('/app-manage')}" ng-if="me && me.Id">
-                    <a href="#/app-manage">
-                        <i class="menu-icon fa fa-cogs"></i>
-                        <span class="menu-text"> 应用管理 </span>
-                    </a>
-
-                    <b class="arrow"></b>
-                </li>
             </ul><!-- /.nav-list -->
             <!-- #section:basics/sidebar.layout.minimize -->
             <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
@@ -418,6 +365,7 @@
     <script src="scripts/controllers/user/edit/ynu.js"></script>
     <script src="scripts/controllers/user/login.js"></script>
     <script src="scripts/controllers/user/profile.js"></script>
+    <script src="scripts/controllers/app/setting.js"></script>
     <!-- endbuild -->
 </body>
 </html>

@@ -52,6 +52,10 @@ angular
         templateUrl: 'views/user/profile.html',
         controller: 'UserProfileCtrl'
       })
+      .when('/app/setting/:appId', {
+        templateUrl: 'views/app/setting.html',
+        controller: 'AppSettingCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

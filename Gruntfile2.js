@@ -1,4 +1,4 @@
-// Generated on 2014-12-03 using generator-angular 0.10.0
+// Generated on 2014-12-11 using generator-angular 0.10.0
 'use strict';
 
 // # Globbing
@@ -68,7 +68,7 @@ module.exports = function (grunt) {
       options: {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
-        hostname: 'user.apps.ynu.edu.cn',
+        hostname: 'localhost',
         livereload: 35729
       },
       livereload: {
@@ -268,7 +268,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.dist %>',
-          src: ['*.html', 'views/{,*/,*/*/}*.html'],
+          src: ['*.html', 'views/{,*/}*.html'],
           dest: '<%= yeoman.dist %>'
         }]
       }
@@ -306,7 +306,7 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '.htaccess',
             '*.html',
-            'views/{,*/,*/*/}*.html',
+            'views/{,*/}*.html',
             'images/{,*/}*.{webp}',
             'fonts/{,*/}*.*'
           ]
@@ -318,11 +318,6 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: 'bower_components/bootstrap/dist',
-          src: 'fonts/*',
-          dest: '<%= yeoman.dist %>'
-        }, {
-          expand: true,
-          cwd: 'bower_components/font-awesome',
           src: 'fonts/*',
           dest: '<%= yeoman.dist %>'
         }]
@@ -392,10 +387,7 @@ module.exports = function (grunt) {
     'clean:dist',
     'wiredep',
     'useminPrepare',
-   // 'concurrent:dist',
-    'copy:styles',
-    'imagemin',
-    'svgmin',
+    'concurrent:dist',
     'autoprefixer',
     'concat',
     'ngAnnotate',

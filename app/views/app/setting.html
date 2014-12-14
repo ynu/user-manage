@@ -1,0 +1,44 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">基本信息</h3>
+  </div>
+  <div class="panel-body">
+    <dl class="dl-horizontal">
+      <dt>
+        名称
+        <a class="green" href="#">
+          <i class="ace-icon fa fa-pencil"></i>
+        </a>
+      </dt><dd>{{app.Name}}</dd>
+      <dt>
+        描述
+        <a class="green" href="#">
+          <i class="ace-icon fa fa-pencil-square"></i>
+        </a>
+      </dt><dd>{{app.Desc}}</dd>
+      <dt>
+        管理员
+        <a href="javascript://void(0)" class="blue" ng-click="actions.addManager()">
+        <i class="ace-icon fa fa-plus"></i>
+      </a>
+      </dt>
+      <dd>
+        <ul class="list-inline">
+          <li ng-repeat="manager in app.Managers track by $index">{{manager.FriendlyNames[0]}}</li>
+        </ul>
+
+      </dd>
+      <dt>
+        Keys
+        <a class="blue" href="#">
+          <i class="ace-icon fa fa-plus"></i>
+        </a>
+      </dt>
+      <dd>
+        <ul class="list-inline">
+          <li ng-repeat="key in app.Keys track by $index">{{key.FriendlyNames[0]}}</li>
+        </ul>
+      </dd>
+    </dl>
+  </div>
+</div>
