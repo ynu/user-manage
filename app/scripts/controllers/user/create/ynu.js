@@ -23,13 +23,9 @@ angular.module('userManageApp')
       $scope.getSubDepts = function (parentId) {
         if (parentId === undefined) parentId = naguBz.Ynu.XB001.Id;
 
-        var depts = [];
-        $.each(xb001, function(i, dept){
-          if (dept.BelongsToIds.contains(parentId)) {
-            depts.push(dept);
-          }
+        return _.filter(xb001, function(bz){
+          return bz.BelongsToId == parentId;
         });
-        return depts;
       }
     });
 

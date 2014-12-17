@@ -10,7 +10,7 @@
 angular.module('userManageApp')
   .controller('NavBarCtrl', function ($scope, $q, $rootScope, $location, naguMM) {
     $scope.returnUrl = encodeURIComponent($location.absUrl());
-      $scope.version = '0.2.0';
+      $scope.version = '0.3.0';
       $rootScope.me = {};
       naguMM.getMe().then(function (me) {
         $rootScope.me = me;
