@@ -8,7 +8,7 @@
  * Controller of the userManageApp
  */
 angular.module('userManageApp')
-  .controller('UserCreateYnuCtrl', function ($scope,Ynu, naguBz,naguMM) {
+  .controller('UserCreateYnuCtrl', function ($scope,Ynu, naguBz,naguMM, $location) {
 
     $scope.user = {
       dept: '',
@@ -34,7 +34,7 @@ angular.module('userManageApp')
     });
 
     $scope.actions = {
-      createUser: function(){
+      createOrUpdateUser: function(){
 
         if(!$scope.user.Name || !$scope.user.password || !$scope.user.dept
           || !$scope.user.office || !$scope.user.mobile){
@@ -87,12 +87,7 @@ angular.module('userManageApp')
 
         $scope.loading.visible = true;
         naguMM.create($scope.user).then(function(user){
-          $scope.user = {
-            dept: '',
-            appId: Ynu.AppId,
-            Fss: [],
-            Roles: []
-          };
+          $location.url('/user/edit/ynu/'+user.ConceptId);
           $scope.loading.visible = false;
         }, function(result){
           alert('出错了：' + result.msg);

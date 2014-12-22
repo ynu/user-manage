@@ -2,28 +2,36 @@
   <div class="form-group">
     <label for="" class="col-sm-2 control-label">用户名</label>
     <div class="col-sm-10">
-      <input class="form-control"  placeholder="用户名"
+      <input class="form-control"  placeholder="用户名" ng-if="!user.ConceptId"
              ng-model="user.UserName" ng-disabled="user.ConceptId">
+      <span ng-if="user.ConceptId"><strong>{{user.UserName}}</strong></span>
     </div>
   </div>
 
   <div class="form-group">
     <label  class="col-sm-2 control-label">姓名</label>
     <div class="col-sm-10">
-      <input class="form-control"  placeholder="真实姓名" ng-model="user.Name">
+      <div class="input-group">
+        <input class="form-control"  placeholder="真实姓名" ng-model="user.Name">
+        <div class="input-group-addon" ng-if="user.ConceptId">
+          <a href="javascript://void(0)" ng-click="actions.addName();">
+            <i class="fa fa-plus"></i></a>
+        </div>
+      </div>
+
     </div>
   </div>
 
 
-  <div class="form-group">
+  <div class="form-group" ng-if="!user.ConceptId">
     <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
     <div class="col-sm-10">
       <input type="password" class="form-control" id="inputPassword3" placeholder="Password"
-             ng-model="user.password" ng-disabled="user.ConceptId">
+             ng-model="user.password">
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group" ng-if="!user.ConceptId">
     <label for="inputPassword3" class="col-sm-2 control-label">确认密码</label>
     <div class="col-sm-10">
       <input type="password" class="form-control" id="" placeholder="Password"
@@ -31,10 +39,57 @@
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group" ng-if="user.ConceptId">
     <label class="col-sm-2 control-label">所在部门</label>
     <div class="col-sm-10">
-      <select ng-model="user.dept">
+      <ul class="list-unstyled">
+        <li >
+          <select ng-options="bz.Name for bz in depts" ng-model="dept1" ng-change="actions.deptSelectChanged(dept1)">
+            <option value="">请选择部门</option>
+          </select>
+          <span class="action-buttons">
+        <a href="javascript://void(0)" ng-click="actions.addDept(dept1);">
+          <i class="fa fa-plus"></i></a>
+      </span>
+        </li>
+        <li  ng-if="dept1.SubItems && dept1.SubItems.length" >
+          <select ng-options="bz.Name for bz in dept1.SubItems"
+                  ng-model="dept2"
+                  ng-change="actions.deptSelectChanged(dept2)">
+            <option value="">请选择部门</option>
+          </select>
+          <span class="action-buttons">
+        <a href="javascript://void(0)" ng-click="actions.addDept(dept2);">
+          <i class="fa fa-plus"></i></a>
+      </span>
+        </li>
+        <li ng-if="dept2.SubItems && dept2.SubItems.length">
+          <select ng-options="bz.Name for bz in dept2.SubItems"
+                  ng-model="dept3">
+            <option value="">请选择部门</option>
+          </select>
+      <span class="action-buttons">
+        <a href="javascript://void(0)" ng-click="actions.addDept(dept3);">
+          <i class="fa fa-plus"></i></a>
+      </span>
+        </li>
+        <li>
+          <select
+            ng-options="xb001[dept].Name for dept in user.Depts" ng-model="selectedDept">
+            <option value="">已经选择的部门</option>
+          </select>
+          <span class="actions-buttons">
+            <a class="red" href="javascript://void(0)" ng-click="actions.removeDept(selectedDept);">
+              <i class="ace-icon fa fa-trash-o bigger-130"></i>
+            </a>
+          </span>
+        </li>
+      </ul>
+
+
+
+
+      <select ng-model="user.dept" class="hidden">
         <option value="">请选择部门</option>
         <optgroup ng-repeat="xb in getSubDepts()" label="{{xb.Name}}">
           <option ng-repeat="dept in getSubDepts(xb.Id)" value="{{dept.Id}}">{{dept.Name}}</option>
@@ -46,29 +101,57 @@
   <div class="form-group">
     <label  class="col-sm-2 control-label">办公电话</label>
     <div class="col-sm-10">
-      <input  class="form-control"  placeholder="办公电话" ng-model="user.office">
+      <div class="input-group">
+        <input  class="form-control"  placeholder="办公电话" ng-model="user.office">
+        <div class="input-group-addon" ng-if="user.ConceptId">
+          <a href="javascript://void(0)" ng-click="actions.addOfficeNum();">
+            <i class="fa fa-plus"></i></a>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <div class="form-group">
     <label  class="col-sm-2 control-label">手机号码</label>
     <div class="col-sm-10">
-      <input  class="form-control"  placeholder="手机号码" ng-model="user.mobile">
+      <div class="input-group">
+        <input  class="form-control"  placeholder="手机号码" ng-model="user.mobile">
+        <div class="input-group-addon" ng-if="user.ConceptId">
+          <a href="javascript://void(0)" ng-click="actions.addCellPhoneNum();">
+            <i class="fa fa-plus"></i></a>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group" ng-if="user.ConceptId">
     <label  class="col-sm-2 control-label">角色</label>
     <div class="col-sm-10">
-      <select class="form-control" multiple ng-model="user.roleIds">
-        <option ng-repeat="role in allRoles track by $index" value="{{role.Id}}">{{role.Name}}</option>
-      </select>
+
+      <ul class="list-group">
+        <li class="list-group-item">
+          <select class="form-control" ng-model="newRoleId" ng-change="actions.roleSelectChanged(newRoleId);">
+            <option value="">添加角色</option>
+            <option ng-repeat="role in allRoles track by $index" value="{{role.Id}}">{{role.Name}}</option>
+          </select>
+        </li>
+        <li class="list-group-item" ng-repeat="role in roleIds track by $index">
+          <span>{{allRoles[role].Name}}</span>
+          <span class="actions-buttons">
+            <a class="red" href="javascript://void(0)" ng-click="actions.removeRole(role);">
+              <i class="ace-icon fa fa-trash-o bigger-130"></i>
+            </a>
+          </span>
+        </li>
+      </ul>
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group" ng-if="!user.ConceptId">
     <div class="col-sm-offset-2 col-sm-10">
-      <button class="btn btn-primary" ng-click="actions.createUser();"> 确定 </button>
+      <button class="btn btn-primary" ng-click="actions.createOrUpdateUser();"> 确定 </button>
     </div>
   </div>
 </div>

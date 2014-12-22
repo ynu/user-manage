@@ -8,7 +8,7 @@
  * Controller of the userManageApp
  */
 angular.module('userManageApp')
-  .controller('UserEditYnuCtrl', function ($scope, naguBz, naguMM, Ynu, $routeParams) {
+  .controller('UserEditYnuCtrl', function ($scope, naguBz, naguMM, Ynu, $routeParams, naguRole, naguSM, naguCM) {
 
     // 初始化变量
     var userId = $routeParams['userId'];
@@ -21,26 +21,30 @@ angular.module('userManageApp')
 
     // 获取所有校内机构，并初始化下拉列表
     $scope.loading.visible = true;
-    naguBz.Ynu.XB001.getBzItems2().then(function (xb001) {
+
+    var dtdXb001 = naguBz.Ynu.XB001.getBzItems2();
+    dtdXb001.then(function (xb001) {
       $scope.xb001 = xb001;
       $scope.getSubDepts = function (parentId) {
         if (parentId === undefined) parentId = naguBz.Ynu.XB001.Id;
 
-        var depts = [];
-        $.each(xb001, function(i, dept){
-          if (dept.BelongsToIds.contains(parentId)) {
-            depts.push(dept);
-          }
+        return _.filter(xb001, function(bz){
+          return bz.BelongsToId == parentId;
         });
-        return depts;
       };
+      naguBz.Ynu.XB001.getBzItems().then(function(bzs){
+        $scope.depts = bzs;
+      });
 
       // 获取待更新的用户信息
       naguMM.getMember(userId, appId, predicates).then(function(user){
         user.Depts = [];
         user.OfficeNum = [];
         user.CellPhoneNum = [];
-        user.roleIds = [];
+        $scope.roleIds = [];
+        _.each(user.Roles, function(role){
+          $scope.roleIds.push(role.ConceptId);
+        });
         $.each(user.Fss, function(j, fs){
           switch(fs.Predicate.ConceptId){
             case Nagu.Contact.BelongsTo:
@@ -58,9 +62,10 @@ angular.module('userManageApp')
         user.office = user.OfficeNum[0];
         user.mobile = user.CellPhoneNum[0];
 
-        $.each(user.Roles, function (i, role) {
-          user.roleIds.push(role.ConceptId);
-        });
+        naguCM.bulkGet(user.Depts, {
+          appId: Ynu.AppId,
+          keys: Ynu.Read
+        })
         $scope.user = user;
         $scope.loading.visible = false;
       });
@@ -69,62 +74,81 @@ angular.module('userManageApp')
 
 
 
-    // 获取校内机构代码
-    naguBz.Ynu.XB001.getBzItems().then(function(xb001){
-      $scope.deptCategories = xb001;
-    });
-
     // 获取校内应用系统角色标准
     naguBz.Ynu.XB008.getBzItems().then(function(xb008){
       $scope.allRoles = xb008;
     });
 
     $scope.actions = {
-      createUser: function(){
-        if($scope.user.password != $scope.user.password2){
-          alert('密码不相同');
-          return;
-        }
-
-        // 真实姓名
-        $scope.user.fss.push({
+      roleSelectChanged: function(roleId){
+        naguRole.addRole($scope.user.ConceptId, roleId, Ynu.AppId).then(function(){
+          $scope.newRoleId = '';
+          $scope.roleIds.push(roleId);
+        });
+      },
+      removeRole: function(roleId){
+        naguRole.removeRole($scope.user.ConceptId, roleId, Ynu.AppId).then(function(){
+          $scope.roleIds = _.remove($scope.roleIds, roleId);
+        });
+      },
+      addName: function(){
+        naguSM.create({
+          AppId: Ynu.AppId,
+          SubjectId: $scope.user.ConceptId,
+          SType: Nagu.MType.Concept,
           PredicateId: Nagu.Rdfs.Label,
-          Object: $scope.user.name,
-          OType:Nagu.MType.Literal
+          Object: $scope.user.Name,
+          OType: Nagu.MType.Literal
+        }).then(function (fs) {
         });
-
-        // 所在部门
-        $scope.user.fss.push({
-          PredicateId: Nagu.Contact.BelongsTo,
-          Object: $scope.user.dept,
-          OType:Nagu.MType.Concept
-        });
-
-        // 办公电话
-        $scope.user.fss.push({
+      },
+      addOfficeNum: function(){
+        naguSM.create({
+          AppId: Ynu.AppId,
+          SubjectId: $scope.user.ConceptId,
+          SType: Nagu.MType.Concept,
           PredicateId: Nagu.Contact.OfficeNum,
           Object: $scope.user.office,
-          OType:Nagu.MType.Literal
-        });
+          OType: Nagu.MType.Literal
+        }).then(function (fs) {
 
-        // 手机号码
-        $scope.user.fss.push({
+        });
+      },
+      addCellPhoneNum: function(){
+        naguSM.create({
+          AppId: Ynu.AppId,
+          SubjectId: $scope.user.ConceptId,
+          SType: Nagu.MType.Concept,
           PredicateId: Nagu.Contact.CellPhoneNum,
           Object: $scope.user.mobile,
-          OType:Nagu.MType.Literal
-        });
+          OType: Nagu.MType.Literal
+        }).then(function (fs) {
 
-        $scope.loading.visible = true;
-        naguMM.create($scope.user).then(function(user){
-          $scope.user = {
-            dept: '',
-            appId: Ynu.AppId,
-            fss: []
-          };
-          $scope.loading.visible = false;
-        }, function(result){
-          alert('出错了：' + result.msg);
+        });
+      },
+      deptSelectChanged: function(bz){
+        naguBz.Ynu.XB001.getBzItems(bz.Id).then(function(bzs){
+          bz.SubItems = bzs;
+        });
+      },
+      addDept: function(dept){
+        naguSM.create({
+          AppId: Ynu.AppId,
+          SubjectId: $scope.user.ConceptId,
+          SType: Nagu.MType.Concept,
+          PredicateId: Nagu.Contact.BelongsTo,
+          Object: dept.Id,
+          OType: Nagu.MType.Concept
+        }).then(function (fs) {
+          $scope.user.Depts.push(dept.Id);
+          $scope.user.Depts = _.uniq($scope.user.Depts);
+        });
+      },
+      removeDept: function(deptId){
+        naguSM.del(deptId, Ynu.AppId).then(function(){
+          $scope.user.Depts = _.remove($scope.user.Depts, deptId);
         });
       }
+
     };
   });
